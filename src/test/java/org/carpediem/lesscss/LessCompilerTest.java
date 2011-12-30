@@ -1,5 +1,6 @@
-package org.petrovic.lesscss;
+package org.carpediem.lesscss;
 
+import org.carpediem.lesscss.LessCompiler;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;

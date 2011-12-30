@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  under the License.
  */
-package org.petrovic.lesscss;
+package org.carpediem.lesscss;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
@@ -43,8 +43,8 @@ public class LessCompiler {
     }
 
     public LessCompiler() {
-        String lessSrc = "less-1.6.1.js";
-        String runSrc = "run.js";
+        String lessSrc = "org/carpediem/lesscss/less-1.6.1.js";
+        String runSrc = "org/carpediem/lesscss/run.js";
 
         final InputStream lessIs = getClass().getClassLoader().getResourceAsStream(lessSrc);
         final InputStream runIs = getClass().getClassLoader().getResourceAsStream(runSrc);
