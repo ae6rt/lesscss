@@ -25,7 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 final public class LessCompiler {
-    private final String LESS_SRC = "org/carpediem/lesscss/less-1.6.1.js";
+    private final String LESS_SRC = "org/carpediem/lesscss/less-1.1.5.min.js";
     private final String RUN_SRC = "org/carpediem/lesscss/run.js";
     private final ScriptEngine scriptEngine;
 
