@@ -16,40 +16,36 @@
  */
 package org.carpediem.lesscss;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.ScriptableObject;
-
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 final public class LessCompiler {
-    private final Context context;
-    private final ScriptableObject scriptableObject;
     private final String LESS_SRC = "org/carpediem/lesscss/less-1.1.5.js";
     private final String RUN_SRC = "org/carpediem/lesscss/run.js";
+    private final ScriptEngine scriptEngine;
 
-    public LessCompiler() throws IOException {
+    public LessCompiler() throws IOException, ScriptException {
         final InputStream lessIs = getClass().getClassLoader().getResourceAsStream(LESS_SRC);
         final InputStream runIs = getClass().getClassLoader().getResourceAsStream(RUN_SRC);
-        final ContextFactory contextFactory = new ContextFactory();
-        context = contextFactory.enterContext();
-        scriptableObject = context.initStandardObjects();
-        context.setOptimizationLevel(9);
-        context.evaluateString(scriptableObject, asString(lessIs), LESS_SRC, 1, null);
-        context.evaluateString(scriptableObject, asString(runIs), RUN_SRC, 1, null);
+        final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+        scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
+        scriptEngine.eval(asString(lessIs));
+        scriptEngine.eval(asString(runIs));
         lessIs.close();
         runIs.close();
     }
 
-    public String compile(InputStream input) throws IOException {
+    public String compile(InputStream input) throws IOException, ScriptException {
         String data = asString(input);
         final String replace = data.replace("\"", "\\\"").replaceAll("\n", "").replaceAll("\r", "");
         StringBuilder sb = new StringBuilder("lessIt(\"").append(replace).append("\")");
         String lessitjs = sb.toString();
-        return context.evaluateString(scriptableObject, lessitjs, "lessitjs.js", 1, null).toString();
+        return scriptEngine.eval(lessitjs).toString();
     }
 
     private String asString(InputStream inputStream) throws IOException {
